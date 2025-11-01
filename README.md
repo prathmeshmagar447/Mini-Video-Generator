@@ -1,6 +1,10 @@
-# Cinematic Manga Video Generator
+# Mini Video Generator
+
+[![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/prathmeshmagar447/Mini-Video-Generator)
 
 A high-performance, cinematic video generator for manga chapters optimized for macOS (Apple Silicon). Creates Full HD (1920×1080) videos with smooth zoom/pan effects, blurred backgrounds, and dynamic crossfade transitions.
+
+**🚀 Sample data included** - Ready to run with pre-processed manga chapter and YOLO models!
 
 ## Features
 
@@ -38,19 +42,37 @@ A high-performance, cinematic video generator for manga chapters optimized for m
 
 ## Project Structure
 
+This repository includes sample data for immediate testing:
+
 ```
-manga_project/
-├── chapter1/
-│   ├── images/
-│   │   ├── 1.png
-│   │   ├── 2.png
-│   │   └── ...
-│   └── audio.mp3
-├── chapter2/
-│   ├── images/
-│   └── audio.mp3
-└── ...
+├── manga_project/
+│   └── chapter1/
+│       ├── images/
+│       │   ├── 0001-023_0..jpg
+│       │   ├── 0001-023_1..jpg
+│       │   ├── 0001-023_2..jpg
+│       │   ├── 0001-023_3..jpg
+│       │   ├── 0001-023_4..jpg
+│       │   └── 0001-023_5..jpg
+│       │   └── *.yolo.json (YOLO detection data)
+│       └── audio.wav
+├── output_videos/
+│   └── chapter1.mp4 (sample generated video)
+├── yolov8n.pt (YOLOv8 nano model)
+├── yolo_cache.json (detection cache)
+├── manga_video_generator.py
+├── requirements.txt
+└── README.md
 ```
+
+## Quick Start
+
+**Try it now with sample data:**
+```bash
+python manga_video_generator.py
+```
+
+The script will process the included `chapter1` data and generate a video in `output_videos/`.
 
 ## Usage
 
