@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Install FFmpeg
+      run: brew install ffmpeg
+
+    - name: Check syntax
+      run: python -m py_compile manga_video_generator.py
+
+    - name: Test imports
+      run: python -c "import cv2; import numpy; import moviepy; from ultralytics import YOLO; print('All imports successful')"

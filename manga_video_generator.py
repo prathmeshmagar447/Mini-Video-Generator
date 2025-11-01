@@ -10,12 +10,7 @@ from multiprocessing import Pool, cpu_count
 
 import multiprocessing
 
-# YOLO cache for repeat runs
-CACHE_FILE = "yolo_cache.json"
-try:
-    yolo_cache = json.load(open(CACHE_FILE)) if os.path.exists(CACHE_FILE) else {}
-except:
-    yolo_cache = {}
+
 # =========================
 # ⚙️ SETTINGS
 # =========================
@@ -66,13 +61,29 @@ def create_cinematic_clip(img_path, duration):
             boxes = np.array(json.load(open(cache_path)))
         except:
             boxes = []
-            results = model.predict(img, device='mps', half=True, verbose=False)
+            results = model.predict(img, device=None, half=True, verbose=False)
             boxes = results[0].boxes.xyxy.cpu().numpy() if results and results[0].boxes else []
     else:
-        results = model.predict(img, device='mps', half=True, verbose=False)
+        results = model.predict(img, device=None, half=True, verbose=False)
         boxes = results[0].boxes.xyxy.cpu().numpy() if results and results[0].boxes else []
-        with open(cache_path, "w") as f:
-            json.dump(boxes.tolist() if hasattr(boxes, 'tolist') else boxes, f)
+
+        # --- ATOMIC CACHE WRITE (FIXED) ---
+        cache_path_tmp = cache_path + ".tmp"
+        try:
+            # Write to a temporary file first
+            with open(cache_path_tmp, "w") as f:
+                json.dump(boxes.tolist() if hasattr(boxes, 'tolist') else boxes, f)
+
+            # Atomically replace the old file with the new one
+            # This guarantees the cache file is never corrupted
+            os.replace(cache_path_tmp, cache_path)
+
+        except Exception as e:
+            print(f"⚠️ Failed to write cache {cache_path}: {e}")
+            # Clean up the temp file if it exists
+            if os.path.exists(cache_path_tmp):
+                os.remove(cache_path_tmp)
+        # --- END ATOMIC WRITE ---
 
     # Default to center crop if no detection
     if len(boxes) == 0:
@@ -216,7 +227,7 @@ def generate_video_from_folder(folder_path):
     final.write_videofile(
         output_path,
         fps=FPS,
-        codec="h264_videotoolbox",
+        codec="libx264",
         bitrate="6000k",
         audio_codec="aac",
         preset="medium",
@@ -237,12 +248,6 @@ def process_all_chapters(main_dir="manga_project"):
     pool_size = max(1, cpu_count() // 2)  # half cores (safe for MacBook M chips)
     with Pool(pool_size, initializer=init_yolo) as pool:
         list(tqdm(pool.imap(generate_video_from_folder, folders), total=len(folders), desc="Rendering Chapters"))
-
-    # Save YOLO cache once safely after all renders (atomic write)
-    tmp_file = CACHE_FILE + ".tmp"
-    with open(tmp_file, "w") as f:
-        json.dump(yolo_cache, f)
-    os.replace(tmp_file, CACHE_FILE)
 
     cv2.destroyAllWindows()
 

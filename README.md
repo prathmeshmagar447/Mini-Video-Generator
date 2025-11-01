@@ -1,22 +1,23 @@
 # Mini Video Generator
 
+[![CI](https://github.com/prathmeshmagar447/Mini-Video-Generator/actions/workflows/ci.yml/badge.svg)](https://github.com/prathmeshmagar447/Mini-Video-Generator/actions/workflows/ci.yml)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/prathmeshmagar447/Mini-Video-Generator)
 
-A high-performance, cinematic video generator for manga chapters optimized for macOS (Apple Silicon). Creates Full HD (1920×1080) videos with smooth zoom/pan effects, blurred backgrounds, and dynamic crossfade transitions.
+A high-performance, cinematic video generator for manga chapters optimized for macOS (Apple Silicon). Creates Portrait HD (1080×1920) videos with smooth zoom/pan effects, blurred backgrounds, and dynamic crossfade transitions using AI-powered subject tracking.
 
-**🚀 Sample data included** - Ready to run with pre-processed manga chapter and YOLO models!
+**🎯 AI-Powered Focus Detection** - Automatically detects and tracks subjects using YOLOv8 for cinematic camera movements.
 
 ## Features
 
-- 🎥 **Full HD 1920×1080** output
+- 📱 **Portrait HD 1080×1920** output (optimized for mobile viewing)
 - 🧠 **YOLOv8 AI focus detection** for automatic subject tracking
 - 🌫️ **Intelligent background blur** with fast processing
-- 🎞️ **Smooth easing zoom/pan** with natural motion
+- 🎞️ **Smooth easing zoom/pan** with natural motion and handheld camera effects
 - 🔁 **Dynamic crossfade transitions** (adaptive fade timing)
 - ⚡ **Multi-core parallel processing** for fast rendering
 - 🛡️ **Robust error handling** for corrupted images and invalid detections
 - 📁 **Per-image caching** to avoid race conditions in parallel processing
-- 🎯 **macOS optimized** for Apple Silicon (M1/M2/M3/M4)
+- 🎯 **macOS optimized** for Apple Silicon (M1/M2/M3/M4) with MPS acceleration
 
 ## Requirements
 
@@ -42,24 +43,14 @@ A high-performance, cinematic video generator for manga chapters optimized for m
 
 ## Project Structure
 
-This repository includes sample data for immediate testing:
-
 ```
-├── manga_project/
-│   └── chapter1/
-│       ├── images/
-│       │   ├── 0001-023_0..jpg
-│       │   ├── 0001-023_1..jpg
-│       │   ├── 0001-023_2..jpg
-│       │   ├── 0001-023_3..jpg
-│       │   ├── 0001-023_4..jpg
-│       │   └── 0001-023_5..jpg
-│       │   └── *.yolo.json (YOLO detection data)
-│       └── audio.wav
-├── output_videos/
-│   └── chapter1.mp4 (sample generated video)
-├── yolov8n.pt (YOLOv8 nano model)
-├── yolo_cache.json (detection cache)
+├── manga_project/           # Input directory for manga chapters
+│   └── chapter1/           # Chapter folder (can have multiple chapters)
+│       ├── images/         # Manga panel images (JPG/PNG)
+│       └── audio.wav       # Chapter audio narration (WAV/MP3)
+├── output_videos/          # Generated video output directory
+├── yolov8n.pt             # YOLOv8 model (auto-downloaded)
+├── yolo_cache.json        # Detection cache for performance
 ├── manga_video_generator.py
 ├── requirements.txt
 └── README.md
@@ -67,12 +58,19 @@ This repository includes sample data for immediate testing:
 
 ## Quick Start
 
-**Try it now with sample data:**
-```bash
-python manga_video_generator.py
-```
+1. **Create your manga chapter structure:**
+   ```bash
+   mkdir -p manga_project/chapter1/images
+   # Add your manga images to manga_project/chapter1/images/
+   # Add your audio file as manga_project/chapter1/audio.wav or audio.mp3
+   ```
 
-The script will process the included `chapter1` data and generate a video in `output_videos/`.
+2. **Run the generator:**
+   ```bash
+   python manga_video_generator.py
+   ```
+
+3. **Find your video** in the `output_videos/` folder
 
 ## Usage
 
@@ -88,7 +86,7 @@ The script will process the included `chapter1` data and generate a video in `ou
 
 Edit the settings at the top of `manga_video_generator.py`:
 
-- `VIDEO_SIZE`: Output resolution (default: 1920×1080)
+- `VIDEO_SIZE`: Output resolution as (width, height) tuple (default: (1080, 1920) for portrait HD)
 - `FPS`: Frame rate (default: 24 for cinematic feel)
 - `OUTPUT_DIR`: Where videos are saved (default: "output_videos")
 
@@ -111,8 +109,8 @@ The script uses YOLOv8n by default. For better manga/anime detection, you can:
 ## Output
 
 Each chapter generates a separate MP4 file with:
-- Full HD resolution
-- H.264 video codec
+- Portrait HD 1080×1920 resolution
+- H.264 video codec with hardware acceleration
 - AAC audio codec
 - Cinematic 24 FPS
 - Smooth transitions and motion
@@ -132,3 +130,23 @@ The script will automatically download yolov8n.pt on first run.
 
 **Memory issues:**
 Reduce `VIDEO_SIZE` or process fewer chapters simultaneously.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics) for AI-powered object detection
+- [MoviePy](https://github.com/Zulko/moviepy) for video processing
+- [OpenCV](https://opencv.org/) for computer vision operations
