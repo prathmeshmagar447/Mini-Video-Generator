@@ -59,3 +59,9 @@ Desktop.ini
 # Temporary files
 *.tmp
 *.temp
+
+*.jpg
+*.png
+*.mp4
+*.wav
+*.mp3
