@@ -4,6 +4,7 @@ yolo_cache.json
 
 # Generated videos
 output_videos/
+test_output/
 
 # Manga project data (keep sample structure)
 manga_project/chapter1/
@@ -65,3 +66,12 @@ Desktop.ini
 *.mp4
 *.wav
 *.mp3
+
+# Environment variables
+.env
+.env.local
+
+# Python distributions
+*.egg-info/
+dist/
+build/
