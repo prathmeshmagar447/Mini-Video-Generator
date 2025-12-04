@@ -3,7 +3,7 @@
 [![CI](https://github.com/prathmeshmagar447/Mini-Video-Generator/actions/workflows/ci.yml/badge.svg)](https://github.com/prathmeshmagar447/Mini-Video-Generator/actions/workflows/ci.yml)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/prathmeshmagar447/Mini-Video-Generator)
 
-A high-performance, cinematic video generator for manga chapters optimized for macOS (Apple Silicon). Creates Portrait HD (1080×1920) videos with smooth zoom/pan effects, blurred backgrounds, and dynamic crossfade transitions using AI-powered subject tracking.
+A high-performance, cinematic video generator for manga chapters and anime clips optimized for macOS (Apple Silicon). Creates Portrait HD (1080×1920) videos with smooth zoom/pan effects, blurred backgrounds, and dynamic crossfade transitions using AI-powered subject tracking.
 
 **🎯 AI-Powered Focus Detection** - Automatically detects and tracks subjects using YOLOv8 for cinematic camera movements.
 
